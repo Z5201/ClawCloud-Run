@@ -491,8 +491,9 @@ class AutoLogin:
             
             # 检查是否是区域子域名格式
             # 格式: {region}.console.claw.cloud
-            if host.endswith('.console.claw.cloud'):
-                region = host.replace('.console.claw.cloud', '')
+           # [修改] 增加对 .run.claw.cloud 的支持
+            if host.endswith('.console.claw.cloud') or host.endswith('.run.claw.cloud'):
+                region = host.replace('.console.claw.cloud', '').replace('.run.claw.cloud', '')
                 if region and region != 'console':  # 排除无效情况
                     self.detected_region = region
                     self.region_base_url = f"https://{host}"
